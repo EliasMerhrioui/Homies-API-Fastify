@@ -100,7 +100,6 @@ fastify.get('/administrateurs', async (req, reply) => {
   }
 });
 
-
 fastify.post('/administrateurs/:email', async (req, res) => {
   const { email } = req.params; // Récupérer l'adresse email de l'administrateur à ajouter depuis les paramètres d'URL
   try {
@@ -110,7 +109,6 @@ fastify.post('/administrateurs/:email', async (req, res) => {
     const administrateursResponse = await axios.get('http://127.0.0.1:3000/administrateurs');
     let administrateurs = administrateursResponse.data; // Récupérer la liste des administrateurs
     
-   
     const utilisateur = utilisateurs.find(u => u.email_utilisateur === email); // Trouver l'utilisateur correspondant à l'adresse email
     
     if (administrateurs == 0) {
@@ -128,11 +126,17 @@ fastify.post('/administrateurs/:email', async (req, res) => {
       // Renvoyer la réponse avec l'utilisateur inscrit
       return res.send(nouvelAdmin);
     } else {
+      
       const utilisateur = utilisateurs.find(u => u.email_utilisateur === email); // Trouver l'utilisateur correspondant à l'adresse email
       if (!utilisateur) {
         return res.status(404).send({ message: 'Utilisateur non trouvé' }); // Retourner une erreur si l'utilisateur n'est pas trouvé
       }
       
+      const emailExistant = administrateurs.some(admin => admin.email_admin === email);
+      if (emailExistant) {
+        return res.status(400).send({ message: 'Cette adresse email existe déjà' }); // Retourner une erreur si l'adresse email existe déjà
+      }
+
       const newAdmin = {
         id_admin: 1, // Générer un nouvel identifiant pour le premier administrateur
         nom_admin: utilisateur.nom_utilisateur,
