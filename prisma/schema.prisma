@@ -1,0 +1,121 @@
+// Définition de la source de données, qui utilise PostgreSQL et l'URL de la base de données fournie par une variable d'environnement
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Définition du générateur de client Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Définition du modèle Utilisateur
+model Utilisateur {
+  // Définition de la clé primaire id_utilisateur, qui est un entier auto-incrémenté
+  id_utilisateur     Int      @id @default(autoincrement())
+  nom_utilisateur    String
+  prenom_utilisateur String
+  email_utilisateur  String   @unique // l'email doit être unique pour chaque utilisateur
+  password_utilisateur String
+  adresse_utilisateur String
+  ville_utilisateur   String
+  pays_utilisateur    String
+  tel_utilisateur     String
+  salt                String? // le sel utilisé pour le hachage du mot de passe
+  commandes           Commande[] // une relation avec les commandes passées par cet utilisateur
+  paniers             Panier[] // une relation avec les produits actuellement dans le panier de cet utilisateur
+  administrateurs     Administrateur[] // une relation avec les administrateurs associés à cet utilisateur
+  produits             Produit[] // une relation avec les produits que cet utilisateur a ajoutés (relation inverse)
+}
+
+// Définition du modèle Commande
+model Commande {
+  // Définition de la clé primaire id_commande, qui est un entier auto-incrémenté
+  id_commande            Int        @id @default(autoincrement())
+  id_utilisateur         Int
+  date_commande          DateTime
+  statut_commande        String
+  montant_total_commande Float
+  adresse_livraison      String
+  adresse_facturation    String
+  utilisateur            Utilisateur @relation(fields: [id_utilisateur], references: [id_utilisateur]) // une relation avec l'utilisateur qui a passé cette commande
+}
+
+// Définition du modèle Produit
+model Produit {
+  id_produit            Int      @id @default(autoincrement()) // Définition de la clé primaire id_produit, qui est un entier auto-incrémenté
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  categorie_produit     String
+  nom_produit           String
+  description_produit   String
+  prix_produit          Float
+  quantite_produit      Int
+  image_produit         String
+  ownerId               Int // l'ID de l'utilisateur qui a ajouté ce produit
+  owner                 Utilisateur @relation(fields: [ownerId], references: [id_utilisateur]) // une relation avec l'utilisateur qui a ajouté ce produit
+  paniers               Panier[] // une relation avec les paniers qui contiennent ce produit
+  categorie             Categorie? @relation(fields: [categorieId], references: [id_categorie]) // une relation avec la catégorie à laquelle appartient ce produit
+  categorieId           Int? // l'ID de la catégorie à laquelle appartient ce produit
+}
+
+model Panier {
+  id_panier         Int        @id @default(autoincrement())
+  id_utilisateur    Int        // clé étrangère vers le modèle Utilisateur
+  id_produit        Int        // clé étrangère vers le modèle Produit
+  quantite_produit  Int
+  date_ajout        DateTime
+  utilisateur       Utilisateur @relation(fields: [id_utilisateur], references: [id_utilisateur]) // relation plusieurs-à-un avec l'utilisateur
+  produit           Produit    @relation(fields: [id_produit], references: [id_produit]) // relation plusieurs-à-un avec le produit
+}
+
+model Categorie {
+  id_categorie         Int        @id @default(autoincrement())
+  nom_categorie        String
+  description_categorie String
+  produits             Produit[] // relation un-à-plusieurs avec le modèle Produit
+}
+
+model Actualite {
+  id_actus      Int       @id @default(autoincrement())
+  titre_actus   String
+  contenu_actus String
+  date_actus    DateTime
+  id_admin      Int       // clé étrangère vers le modèle Administrateur
+  administrateur Administrateur @relation(fields: [id_admin], references: [id_admin]) // relation un-à-plusieurs avec l'administrateur
+}
+
+model Contact {
+  id_contact     Int       @id @default(autoincrement())
+  id_admin       Int       // clé étrangère vers le modèle Administrateur
+  nom_contact    String
+  email_contact  String
+  objet_contact  String
+  message_contact String
+  date_contact   DateTime
+  administrateur Administrateur @relation(fields: [id_admin], references: [id_admin]) // relation un-à-plusieurs avec l'administrateur
+}
+
+model Administrateur {
+  id_admin          Int        @id @default(autoincrement()) // Identifiant unique de chaque administrateur
+  nom_admin         String
+  prenom_admin      String
+  email_admin       String    @unique // Adresse e-mail unique de l'administrateur
+  password_admin    String
+  actualites        Actualite[] // Liste des actualités liées à cet administrateur
+  contacts          Contact[] // Liste des contacts liés à cet administrateur
+  partenaires       Partenaire[] // Liste des partenaires liés à cet administrateur
+  utilisateurs      Utilisateur[] // Liste des utilisateurs liés à cet administrateur
+}
+
+// Définition du modèle Partenaire pour représenter les partenaires de l'application
+model Partenaire {
+  id_partenaire   Int      @id @default(autoincrement()) // Identifiant unique de chaque partenaire
+  id_admin        Int
+  nom_partenaire  String
+  description_partenaire String?
+  logo_partenaire String?
+  siteweb_partenaire String?
+  contact_partenaire String?
+  admin           Administrateur @relation(fields: [id_admin], references: [id_admin]) // Administrateur associé à ce partenaire
+}
