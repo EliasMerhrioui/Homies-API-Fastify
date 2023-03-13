@@ -48,7 +48,7 @@
     "semver" "^7.3.5"
     "tar" "^6.1.11"
 
-"@prisma/client@^4.11.0":
+"@prisma/client@^2.22.1", "@prisma/client@^4.11.0":
   "integrity" "sha512-0INHYkQIqgAjrt7NzhYpeDQi8x3Nvylc2uDngKyFDDj1tTRQ4uV1HnVmd1sQEraeVAN63SOK0dgCKQHlvjL0KA=="
   "resolved" "https://registry.npmjs.org/@prisma/client/-/client-4.11.0.tgz"
   "version" "4.11.0"
@@ -420,6 +420,13 @@
   "resolved" "https://registry.npmjs.org/fastify-plugin/-/fastify-plugin-3.0.1.tgz"
   "version" "3.0.1"
 
+"fastify-prisma@^0.0.2":
+  "integrity" "sha512-P2/yBaTlPIKBtibNEjvrul3Q3/UHCzYZsC6cqEHnILlTswNJU4FAJQ1nZeGaqy4alLBUeIfJFMRPsT4w/lpxMA=="
+  "resolved" "https://registry.npmjs.org/fastify-prisma/-/fastify-prisma-0.0.2.tgz"
+  "version" "0.0.2"
+  dependencies:
+    "typescript" "^4.2.4"
+
 "fastify-static-deprecated@npm:fastify-static@4.6.1":
   "integrity" "sha512-vy7N28U4AMhuOim12ZZWHulEE6OQKtzZbHgiB8Zj4llUuUQXPka0WHAQI3njm1jTCx4W6fixUHfpITxweMtAIA=="
   "resolved" "https://registry.npmjs.org/fastify-static/-/fastify-static-4.6.1.tgz"
@@ -461,7 +468,7 @@
     "fastify-swagger-deprecated" "npm:fastify-swagger@5.1.1"
     "process-warning" "^1.0.0"
 
-"fastify@^4.14.1":
+"fastify@^3.15.1", "fastify@^4.14.1":
   "integrity" "sha512-yjrDeXe77j9gRlSV2UJry8mcFWbD0NQ5JYjnPi4tkFjHZVaG3/BD5wxOmRzGnHPC0YvaBJ0XWrIfFPl2IHRa1w=="
   "resolved" "https://registry.npmjs.org/fastify/-/fastify-4.14.1.tgz"
   "version" "4.14.1"
@@ -1135,6 +1142,11 @@
   "integrity" "sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw=="
   "resolved" "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
   "version" "0.0.3"
+
+"typescript@^4.2.4":
+  "integrity" "sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g=="
+  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz"
+  "version" "4.9.5"
 
 "uri-js@^4.2.2":
   "integrity" "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg=="
