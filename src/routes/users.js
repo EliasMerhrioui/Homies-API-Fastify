@@ -56,5 +56,20 @@ module.exports = function (fastify, opts, next) {
     }
   });
 
+  fastify.delete('/utilisateurs/:id', async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+      // Utilise le modèle Prisma pour supprimer l'utilisateur correspondant à l'ID
+      const utilisateur = await prisma.utilisateur.delete({
+        where: { id_utilisateur: parseInt(id) }
+      });
+      
+      res.send({ message: 'Utilisateur supprimé avec succès', utilisateur });
+    } catch (error) {
+      res.status(500).send({ message: 'Une erreur est survenue lors de la suppression de l\'utilisateur' });
+    }
+  });
+
   next();
 };

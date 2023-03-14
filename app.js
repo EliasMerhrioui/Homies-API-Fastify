@@ -1,7 +1,10 @@
 const fastify = require('fastify')();
 
-// const authRouter = require('./src/routes/auth.js');
-// const adminRouter = require('./src/routes/admin.js');
+const authRouter = require('./src/routes/auth.js');
+fastify.register(authRouter);
+
+const adminRouter = require('./src/routes/admin.js');
+fastify.register(adminRouter);
 
 const usersRouter = require('./src/routes/users.js');
 fastify.register(usersRouter);
